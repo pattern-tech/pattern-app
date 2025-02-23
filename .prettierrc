@@ -1,0 +1,12 @@
+{
+  "singleQuote": true,
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^[.](.*)"
+  ],
+  "importOrderCaseInsensitive": true,
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": false,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}
