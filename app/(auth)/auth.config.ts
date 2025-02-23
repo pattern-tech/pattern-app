@@ -1,39 +1,29 @@
-import type { NextAuthConfig } from 'next-auth';
+import { NextAuthConfig } from "next-auth";
+
+export const nextAuthSecret = process.env.NEXTAUTH_SECRET;
+if (!nextAuthSecret) {
+  throw new Error("NEXTAUTH_SECRET is not set");
+}
 
 export const authConfig = {
-  pages: {
-    signIn: '/login',
-    newUser: '/',
+  secret: nextAuthSecret,
+  providers: [],
+  session: {
+    strategy: "jwt",
   },
-  providers: [
-    // added later in auth.ts since it requires bcrypt which is only compatible with Node.js
-    // while this file is also used in non-Node.js environments
-  ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnChat = nextUrl.pathname.startsWith('/');
-      const isOnRegister = nextUrl.pathname.startsWith('/register');
-      const isOnLogin = nextUrl.pathname.startsWith('/login');
-
-      if (isLoggedIn && (isOnLogin || isOnRegister)) {
-        return Response.redirect(new URL('/', nextUrl as unknown as URL));
+    session({ session, token }) {
+      if (!token.sub) {
+        return session;
       }
 
-      if (isOnRegister || isOnLogin) {
-        return true; // Always allow access to register and login pages
+      const [, chainId, address] = token.sub.split(":");
+      if (chainId && address) {
+        session.address = address;
+        session.chainId = parseInt(chainId, 10);
       }
 
-      if (isOnChat) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      }
-
-      if (isLoggedIn) {
-        return Response.redirect(new URL('/', nextUrl as unknown as URL));
-      }
-
-      return true;
+      return session;
     },
   },
 } satisfies NextAuthConfig;
