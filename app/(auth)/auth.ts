@@ -23,10 +23,11 @@ if (!projectId) {
   throw new Error('NEXT_PUBLIC_PROJECT_ID is not set');
 }
 
-const siweVerificationApi = process.env.SIWE_VERIFICATION_API;
-if (!siweVerificationApi) {
-  throw new Error('SIWE_VERIFICATION_API is not set');
+const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
+if (!patternCoreEndpoint) {
+  throw new Error('PATTERN_CORE_ENDPOINT is not set');
 }
+const siweVerificationApi = `${patternCoreEndpoint}/auth/verify`;
 
 const providers = [
   credentialsProvider({
