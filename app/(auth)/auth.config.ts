@@ -1,11 +1,15 @@
-import type { SIWESession } from '@reown/appkit-siwe';
+import { type SIWESession } from '@reown/appkit-siwe';
 import type { NextAuthConfig } from 'next-auth';
+
+import { fetchSessionPrerequisites } from './service';
 
 declare module 'next-auth' {
   interface Session extends SIWESession {
     address: string;
     chainId: number;
     accessToken: string;
+    workspaceId: string;
+    projectId: string;
   }
   interface User {
     accessToken: string;
@@ -43,7 +47,7 @@ export const authConfig = {
       }
       return token;
     },
-    session({ session, token }) {
+    async session({ session, token }) {
       if (!token.sub) {
         return session;
       }
@@ -59,6 +63,20 @@ export const authConfig = {
         session.address = address;
         session.chainId = Number.parseInt(chainId, 10);
         session.accessToken = wrappedJWT;
+
+        const sessionPrerequisitesResult =
+          await fetchSessionPrerequisites(wrappedJWT);
+
+        if (sessionPrerequisitesResult.isErr()) {
+          throw new Error(
+            'Cannot fetch session prerequisites (default workspace and project)',
+            { cause: sessionPrerequisitesResult.error },
+          );
+        }
+
+        const [workspaceId, projectId] = sessionPrerequisitesResult.value;
+        session.workspaceId = workspaceId;
+        session.projectId = projectId;
       }
 
       return session;

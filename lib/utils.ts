@@ -229,3 +229,11 @@ export function getDocumentTimestampByIndex(
 
   return documents[index].createdAt;
 }
+
+/**
+ * Extract error message or return a default message
+ * @param error any thrown error object
+ * @returns error message or a default message
+ */
+export const extractErrorMessageOrDefault = (error: unknown) =>
+  error instanceof Error ? error.message : 'Unknown error';
