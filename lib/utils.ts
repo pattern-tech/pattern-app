@@ -2,9 +2,7 @@ import type {
   CoreAssistantMessage,
   CoreToolMessage,
   Message,
-  TextStreamPart,
   ToolInvocation,
-  ToolSet,
 } from 'ai';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -235,5 +233,7 @@ export function getDocumentTimestampByIndex(
  * @param error any thrown error object
  * @returns error message or a default message
  */
-export const extractErrorMessageOrDefault = (error: unknown) =>
-  error instanceof Error ? error.message : 'Unknown error';
+export const extractErrorMessageOrDefault = (
+  error: unknown,
+  defaultError = 'Unknown error',
+) => (error instanceof Error ? error.message : defaultError);
