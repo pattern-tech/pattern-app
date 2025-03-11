@@ -13,6 +13,9 @@ importers:
       '@ai-sdk/openai':
         specifier: 1.1.9
         version: 1.1.9(zod@3.23.8)
+      '@ai-sdk/provider-utils':
+        specifier: ^2.1.9
+        version: 2.1.9(zod@3.23.8)
       '@codemirror/lang-javascript':
         specifier: ^6.2.2
         version: 6.2.2
@@ -202,6 +205,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.14)
+      ts-results-es:
+        specifier: ^5.0.1
+        version: 5.0.1
       usehooks-ts:
         specifier: ^3.1.0
         version: 3.1.0(react@19.0.0-rc-45804af1-20241021)
@@ -7926,6 +7932,12 @@ packages:
         integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==,
       }
 
+  ts-results-es@5.0.1:
+    resolution:
+      {
+        integrity: sha512-HjX/7HxQe2bXkbp8pHTjy4Ir9eHIDnDDsLDphhGqy6I9iZ/vD4QXWEIlrVRZsEX+kS2jIiiF/mnl0nKnPTiYFw==,
+      }
+
   tsconfig-paths@3.15.0:
     resolution:
       {
@@ -9447,7 +9459,7 @@ snapshots:
     dependencies:
       '@ethereumjs/tx': 4.2.0
       '@types/debug': 4.1.12
-      debug: 4.3.7
+      debug: 4.4.0
       semver: 7.6.3
       superstruct: 1.0.4
     transitivePeerDependencies:
@@ -14274,6 +14286,8 @@ snapshots:
       typescript: 5.6.3
 
   ts-interface-checker@0.1.13: {}
+
+  ts-results-es@5.0.1: {}
 
   tsconfig-paths@3.15.0:
     dependencies:

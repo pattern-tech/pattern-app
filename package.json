@@ -22,6 +22,7 @@
   "dependencies": {
     "@ai-sdk/fireworks": "^0.1.8",
     "@ai-sdk/openai": "1.1.9",
+    "@ai-sdk/provider-utils": "^2.1.9",
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/lang-python": "^6.1.6",
     "@codemirror/state": "^6.5.0",
@@ -85,6 +86,7 @@
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "ts-results-es": "^5.0.1",
     "usehooks-ts": "^3.1.0",
     "viem": "^2.23.4",
     "wagmi": "^2.14.11",
