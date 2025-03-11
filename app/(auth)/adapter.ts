@@ -32,11 +32,17 @@ export const getAllWorkspaces = async (
         },
       },
     );
-    const allWorkspaces: ApiListAllWorkspacesResponse = (
-      await allWorkspacesResponse.json()
-    ).data;
 
-    return Ok(allWorkspaces);
+    if (allWorkspacesResponse.ok) {
+      const allWorkspaces: ApiListAllWorkspacesResponse = (
+        await allWorkspacesResponse.json()
+      ).data;
+
+      return Ok(allWorkspaces);
+    }
+    return Err(
+      `Fetching workspaces failed with error code ${allWorkspacesResponse.status}`,
+    );
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));
   }
@@ -51,7 +57,7 @@ export const createWorkspace = async (
   accessToken: string,
 ): Promise<Result<ApiCreateWorkspaceResponse, string>> => {
   try {
-    const response = await fetch(`${patternCoreEndpoint}/project`, {
+    const response = await fetch(`${patternCoreEndpoint}/workspace`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -61,9 +67,14 @@ export const createWorkspace = async (
         name: 'Default Workspace',
       }),
     });
-    const workspace: ApiCreateWorkspaceResponse = (await response.json()).data;
 
-    return Ok(workspace);
+    if (response.ok) {
+      const workspace: ApiCreateWorkspaceResponse = (await response.json())
+        .data;
+
+      return Ok(workspace);
+    }
+    return Err(`Creating workspace failed with error code ${response.status}`);
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));
   }
@@ -84,11 +95,16 @@ export const getAllProjects = async (
         'Content-Type': 'application/json',
       },
     });
-    const allProjects: ApiListAllProjectsResponse = (
-      await allProjectsResponse.json()
-    ).data;
+    if (allProjectsResponse.ok) {
+      const allProjects: ApiListAllProjectsResponse = (
+        await allProjectsResponse.json()
+      ).data;
 
-    return Ok(allProjects);
+      return Ok(allProjects);
+    }
+    return Err(
+      `Fetching projects failed with error code ${allProjectsResponse.status}`,
+    );
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));
   }
@@ -116,9 +132,13 @@ export const createProjectInWorkspace = async (
         workspace_id: workspaceId,
       }),
     });
-    const project: ApiCreateProjectResponse = (await response.json()).data;
 
-    return Ok(project);
+    if (response.ok) {
+      const project: ApiCreateProjectResponse = (await response.json()).data;
+
+      return Ok(project);
+    }
+    return Err(`Creating project failed with error code ${response.status}`);
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));
   }
