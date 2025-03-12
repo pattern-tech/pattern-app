@@ -65,6 +65,7 @@ export const getConversation = async (
 export const createConversation = async (
   accessToken: string,
   projectId: string,
+  conversationId: string,
   conversationName: string,
 ): Promise<Result<ApiCreateConversationResponse, string>> => {
   try {
@@ -79,6 +80,7 @@ export const createConversation = async (
         body: JSON.stringify({
           name: conversationName,
           project_id: projectId,
+          conversation_id: conversationId,
         }),
       },
     );

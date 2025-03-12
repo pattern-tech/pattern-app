@@ -28,6 +28,7 @@ export const getOrCreateConversation = async (
     const createConversationResult = await createConversation(
       accessToken,
       projectId,
+      conversationId,
       'Default Title',
     );
     if (createConversationResult.isErr()) {
