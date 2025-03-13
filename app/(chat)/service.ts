@@ -41,4 +41,9 @@ export const getOrCreateConversation = async (
   return Ok(conversation);
 };
 
-export { sendMessage, sendMessageStreamed } from './adapter';
+export {
+  sendMessage,
+  sendMessageStreamed,
+  getConversation,
+  getConversationMessages,
+} from './adapter';
