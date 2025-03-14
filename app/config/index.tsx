@@ -16,8 +16,9 @@ import {
 import { getCsrfToken, getSession, signIn, signOut } from 'next-auth/react';
 import { getAddress } from 'viem';
 
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
-if (!projectId) throw new Error('Project ID is not defined');
+export const walletConnectProjectId =
+  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
+if (!walletConnectProjectId) throw new Error('Project ID is not defined');
 
 export const metadata = {
   name: 'Pattern',
@@ -35,7 +36,7 @@ export const chains: [AppKitNetwork, ...AppKitNetwork[]] = [
 
 export const wagmiAdapter = new WagmiAdapter({
   networks: chains,
-  projectId,
+  projectId: walletConnectProjectId,
   ssr: true,
 });
 
@@ -57,7 +58,9 @@ export const siweConfig = createSIWEConfig({
   getMessageParams: async () => ({
     domain: typeof window !== 'undefined' ? window.location.host : '',
     uri: typeof window !== 'undefined' ? window.location.origin : '',
-    chains: chains.map((chain: AppKitNetwork) => Number.parseInt(chain.id.toString())),
+    chains: chains.map((chain: AppKitNetwork) =>
+      Number.parseInt(chain.id.toString()),
+    ),
   }),
   createMessage: ({ address, ...args }: SIWECreateMessageArgs) =>
     formatMessage(args, normalizeAddress(address)),
