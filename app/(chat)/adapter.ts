@@ -1,14 +1,13 @@
 import { Ok, Err, type Result } from 'ts-results-es';
 
-import type { ApiGetConversationMessagesResponse } from '@/app/(chat)/types';
-import { extractErrorMessageOrDefault } from '@/lib/utils';
-
 import type {
+  ApiGetConversationMessagesResponse,
   ApiCreateConversationResponse,
   ApiGetConversationResponse,
   ApiSendMessageResponse,
   ApiSendMessageStreamedResponse,
-} from './types';
+} from '@/app/(chat)/types';
+import { extractErrorMessageOrDefault } from '@/lib/utils';
 
 const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
 if (!patternCoreEndpoint) {
