@@ -7,6 +7,7 @@ import type {
   ApiSendMessageResponse,
   ApiSendMessageStreamedResponse,
   ApiGetAllConversationsResponse,
+  ApiRenameConversationResponse,
 } from '@/app/(chat)/types';
 import { extractErrorMessageOrDefault } from '@/lib/utils';
 
@@ -98,14 +99,13 @@ export const getConversationMessages = async (
  * Create a conversation
  * @param accessToken
  * @param projectId
- * @param conversationName
+ * @param conversationId
  * @returns result containing the created conversation
  */
 export const createConversation = async (
   accessToken: string,
   projectId: string,
   conversationId: string,
-  conversationName: string,
 ): Promise<Result<ApiCreateConversationResponse, string>> => {
   try {
     const conversationResponse = await fetch(
@@ -117,7 +117,10 @@ export const createConversation = async (
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: conversationName,
+          /**
+           * This will be updated immediately via title generation API
+           */
+          name: 'Default Title',
           project_id: projectId,
           conversation_id: conversationId,
         }),
@@ -236,6 +239,7 @@ export const sendMessageStreamed = async (
 /**
  * Get all conversations
  * @param accessToken
+ * @param projectId
  * @returns result containing all conversations of current user
  */
 export const getAllConversations = async (
@@ -261,6 +265,50 @@ export const getAllConversations = async (
     }
     return Err(
       `Fetching projects failed with error code ${allConversationsResponse.status}`,
+    );
+  } catch (error) {
+    return Err(extractErrorMessageOrDefault(error));
+  }
+};
+
+/**
+ * Rename a conversation title based on a message
+ * @param accessToken
+ * @param projectId
+ * @param conversationId
+ * @param message
+ * @returns result containing updated title
+ */
+export const renameConversation = async (
+  accessToken: string,
+  projectId: string,
+  conversationId: string,
+  message: string,
+): Promise<Result<ApiRenameConversationResponse, string>> => {
+  try {
+    const renameResponse = await fetch(
+      `${patternCoreEndpoint}/playground/conversation/${projectId}/${conversationId}/title-generation`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+        }),
+      },
+    );
+
+    if (renameResponse.ok) {
+      const result: ApiRenameConversationResponse = (
+        await renameResponse.json()
+      ).data;
+
+      return Ok(result);
+    }
+    return Err(
+      `Renaming conversation failed with error code ${renameResponse.status}`,
     );
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));

@@ -4,20 +4,25 @@ import type { Chat } from '@/lib/db/schema';
 
 import {
   createConversation,
-  getAllConversations,
+  renameConversation,
   getConversation,
+  getAllConversations,
 } from './adapter';
 import type { Conversation } from './types';
 
 /**
  * Checks if the conversation exists and returns it, otherwise creates it
  * @param accessToken
+ * @param projectId
+ * @param conversationId
+ * @param initialMessage
  * @returns result containing the existing or created conversation
  */
 export const getOrCreateConversation = async (
   accessToken: string,
   projectId: string,
   conversationId: string,
+  initialMessage: string,
 ): Promise<Result<Conversation, string>> => {
   const conversationResult = await getConversation(
     accessToken,
@@ -35,13 +40,23 @@ export const getOrCreateConversation = async (
       accessToken,
       projectId,
       conversationId,
-      'Default Title',
     );
     if (createConversationResult.isErr()) {
       return Err(createConversationResult.error);
     }
 
     conversation = createConversationResult.value;
+
+    /**
+     * We don't care if the renaming process is successful. It may fail and the
+     * conversation will keep the default title
+     */
+    await renameConversation(
+      accessToken,
+      projectId,
+      conversationId,
+      initialMessage,
+    );
   }
 
   return Ok(conversation);
