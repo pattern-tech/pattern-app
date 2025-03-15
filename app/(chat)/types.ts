@@ -17,3 +17,6 @@ export type ApiCreateConversationResponse = Conversation;
 export type ApiSendMessageResponse = string;
 export type ApiSendMessageStreamedResponse = ReadableStream;
 export type ApiGetAllConversationsResponse = Conversation[];
+export interface ApiRenameConversationResponse {
+  title: string;
+}

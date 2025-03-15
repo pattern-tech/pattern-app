@@ -39,6 +39,7 @@ export async function POST(request: Request) {
     session.accessToken,
     session.projectId,
     id,
+    userMessage.content,
   );
 
   if (conversationResult.isErr()) {
