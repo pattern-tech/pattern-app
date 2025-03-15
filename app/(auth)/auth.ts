@@ -11,7 +11,7 @@ import { authConfig } from './auth.config';
 /**
  * TODO: Move all configs into a validated configs module to avoid duplication
  *
- * https://github.com/pattern-tech/pattern-ui/issues/3
+ * https://github.com/pattern-tech/pattern-app/issues/3
  */
 export const nextAuthSecret = process.env.NEXTAUTH_SECRET;
 if (!nextAuthSecret) {
@@ -75,7 +75,7 @@ const providers = [
         /**
          * TODO: Handle errors accordingly, and show the user what went wrong
          *
-         * https://github.com/pattern-tech/pattern-ui/issues/4
+         * https://github.com/pattern-tech/pattern-app/issues/4
          */
 
         return null;
