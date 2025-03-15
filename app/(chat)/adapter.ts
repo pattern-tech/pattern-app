@@ -1,14 +1,14 @@
 import { Ok, Err, type Result } from 'ts-results-es';
 
-import type { ApiGetConversationMessagesResponse } from '@/app/(chat)/types';
-import { extractErrorMessageOrDefault } from '@/lib/utils';
-
 import type {
+  ApiGetConversationMessagesResponse,
   ApiCreateConversationResponse,
   ApiGetConversationResponse,
   ApiSendMessageResponse,
   ApiSendMessageStreamedResponse,
-} from './types';
+  ApiGetAllConversationsResponse,
+} from '@/app/(chat)/types';
+import { extractErrorMessageOrDefault } from '@/lib/utils';
 
 const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
 if (!patternCoreEndpoint) {
@@ -227,6 +227,40 @@ export const sendMessageStreamed = async (
 
     return Err(
       `Sending message failed with error code ${messageResponse.status}`,
+    );
+  } catch (error) {
+    return Err(extractErrorMessageOrDefault(error));
+  }
+};
+
+/**
+ * Get all conversations
+ * @param accessToken
+ * @returns result containing all conversations of current user
+ */
+export const getAllConversations = async (
+  accessToken: string,
+  projectId: string,
+): Promise<Result<ApiGetAllConversationsResponse, string>> => {
+  try {
+    const allConversationsResponse = await fetch(
+      `${patternCoreEndpoint}/playground/conversation/${projectId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    if (allConversationsResponse.ok) {
+      const allConversations: ApiGetAllConversationsResponse = (
+        await allConversationsResponse.json()
+      ).data;
+
+      return Ok(allConversations);
+    }
+    return Err(
+      `Fetching projects failed with error code ${allConversationsResponse.status}`,
     );
   } catch (error) {
     return Err(extractErrorMessageOrDefault(error));
