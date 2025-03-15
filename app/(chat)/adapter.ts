@@ -1,5 +1,6 @@
 import { Ok, Err, type Result } from 'ts-results-es';
 
+import type { ApiGetConversationMessagesResponse } from '@/app/(chat)/types';
 import { extractErrorMessageOrDefault } from '@/lib/utils';
 
 import type {
@@ -56,6 +57,44 @@ export const getConversation = async (
 };
 
 /**
+ * Get messages of a conversation
+ * @param accessToken
+ * @param projectId
+ * @param conversationId
+ * @returns result containing the conversation messages
+ */
+export const getConversationMessages = async (
+  accessToken: string,
+  projectId: string,
+  conversationId: string,
+): Promise<Result<ApiGetConversationMessagesResponse, string>> => {
+  try {
+    const conversationResponse = await fetch(
+      `${patternCoreEndpoint}/playground/conversation/${projectId}/${conversationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (conversationResponse.ok) {
+      const conversationMessages: ApiGetConversationMessagesResponse = (
+        await conversationResponse.json()
+      ).metadata.history;
+
+      return Ok(conversationMessages);
+    }
+    return Err(
+      `Fetching conversation messages failed with error code ${conversationResponse.status}`,
+    );
+  } catch (error) {
+    return Err(extractErrorMessageOrDefault(error));
+  }
+};
+
+/**
  * Create a conversation
  * @param accessToken
  * @param projectId
@@ -65,6 +104,7 @@ export const getConversation = async (
 export const createConversation = async (
   accessToken: string,
   projectId: string,
+  conversationId: string,
   conversationName: string,
 ): Promise<Result<ApiCreateConversationResponse, string>> => {
   try {
@@ -79,6 +119,7 @@ export const createConversation = async (
         body: JSON.stringify({
           name: conversationName,
           project_id: projectId,
+          conversation_id: conversationId,
         }),
       },
     );

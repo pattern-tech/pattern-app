@@ -28,6 +28,7 @@ export const getOrCreateConversation = async (
     const createConversationResult = await createConversation(
       accessToken,
       projectId,
+      conversationId,
       'Default Title',
     );
     if (createConversationResult.isErr()) {
@@ -40,4 +41,9 @@ export const getOrCreateConversation = async (
   return Ok(conversation);
 };
 
-export { sendMessage, sendMessageStreamed } from './adapter';
+export {
+  sendMessage,
+  sendMessageStreamed,
+  getConversation,
+  getConversationMessages,
+} from './adapter';

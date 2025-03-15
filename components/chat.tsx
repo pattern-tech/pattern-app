@@ -1,30 +1,28 @@
-"use client";
+'use client';
 
-import type { Attachment, Message } from "ai";
-import { useChat } from "ai/react";
-import { useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import type { Attachment, Message } from 'ai';
+import { useChat } from 'ai/react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import useSWR, { useSWRConfig } from 'swr';
 
-import { ChatHeader } from "@/components/chat-header";
-import type { Vote } from "@/lib/db/schema";
-import { fetcher, generateUUID } from "@/lib/utils";
+import { ChatHeader } from '@/components/chat-header';
+import { useArtifactSelector } from '@/hooks/use-artifact';
+import type { Vote } from '@/lib/db/schema';
+import { fetcher, generateUUID } from '@/lib/utils';
 
-import { Artifact } from "./artifact";
-import { MultimodalInput } from "./multimodal-input";
-import { Messages } from "./messages";
-import { VisibilityType } from "./visibility-selector";
-import { useArtifactSelector } from "@/hooks/use-artifact";
-import { toast } from "sonner";
+import { Artifact } from './artifact';
+import { Messages } from './messages';
+import { MultimodalInput } from './multimodal-input';
+import type { VisibilityType } from './visibility-selector';
 
 export function Chat({
   id,
   initialMessages,
-  selectedChatModel,
   isReadonly,
 }: {
   id: string;
   initialMessages: Array<Message>;
-  selectedChatModel: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
 }) {
@@ -42,22 +40,22 @@ export function Chat({
     reload,
   } = useChat({
     id,
-    body: { id, selectedChatModel: selectedChatModel },
+    body: { id },
     initialMessages,
     experimental_throttle: 100,
     sendExtraMessageFields: true,
     generateId: generateUUID,
     onFinish: () => {
-      mutate("/api/history");
+      mutate('/api/history');
     },
     onError: (error) => {
-      toast.error("An error occured, please try again!");
+      toast.error('An error occured, please try again!');
     },
   });
 
   const { data: votes } = useSWR<Array<Vote>>(
     `/api/vote?chatId=${id}`,
-    fetcher
+    fetcher,
   );
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
