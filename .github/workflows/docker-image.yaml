@@ -30,6 +30,14 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create .env
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ vars.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
+          envkey_NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          envkey_PATTERN_CORE_ENDPOINT: ${{ vars.PATTERN_CORE_ENDPOINT }}
+          envkey_AUTH_TRUST_HOST: ${{ vars.AUTH_TRUST_HOST }}
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
