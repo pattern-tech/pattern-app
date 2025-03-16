@@ -38,12 +38,18 @@ jobs:
           envkey_PATTERN_CORE_ENDPOINT: ${{ vars.PATTERN_CORE_ENDPOINT }}
           envkey_AUTH_TRUST_HOST: ${{ vars.AUTH_TRUST_HOST }}
 
+      - name: Extract Metadata for image
+        uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/pattern-tech/pattern-app
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
           platforms: 'linux/amd64'
           push: true
-          tags: pattern-tech/pattern-app:latest
+          tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
