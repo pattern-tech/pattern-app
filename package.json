@@ -15,7 +15,7 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
-    "prepare": "husky && husky install",
+    "prepare": "husky && husky install || true",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
