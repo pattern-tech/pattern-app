@@ -1,5 +1,7 @@
-import { type SIWESession } from '@reown/appkit-siwe';
+import type { SIWESession } from '@reown/appkit-siwe';
 import type { NextAuthConfig } from 'next-auth';
+
+import config from '@/config';
 
 import { fetchSessionPrerequisites } from './service';
 
@@ -22,10 +24,11 @@ declare module 'next-auth/jwt' {
   }
 }
 
-export const nextAuthSecret = process.env.NEXTAUTH_SECRET;
-if (!nextAuthSecret) {
-  throw new Error('NEXTAUTH_SECRET is not set');
-}
+const {
+  nextAuth: {
+    secret: { value: nextAuthSecret },
+  },
+} = config;
 
 export const authConfig = {
   secret: nextAuthSecret,

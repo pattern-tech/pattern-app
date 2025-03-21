@@ -9,12 +9,12 @@ import type {
   ApiGetAllConversationsResponse,
   ApiRenameConversationResponse,
 } from '@/app/(chat)/types';
+import config from '@/config';
 import { extractErrorMessageOrDefault } from '@/lib/utils';
 
-const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
-if (!patternCoreEndpoint) {
-  throw new Error('PATTERN_CORE_ENDPOINT is not set');
-}
+const {
+  patternCoreEndpoint: { value: patternCoreEndpoint },
+} = config;
 
 /**
  * Get a conversation

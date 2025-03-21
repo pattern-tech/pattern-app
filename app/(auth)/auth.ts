@@ -6,22 +6,14 @@ import NextAuth from 'next-auth';
 import 'next-auth/jwt';
 import credentialsProvider from 'next-auth/providers/credentials';
 
+import config from '@/config';
+
 import { authConfig } from './auth.config';
 
-/**
- * TODO: Move all configs into a validated configs module to avoid duplication
- *
- * https://github.com/pattern-tech/pattern-app/issues/3
- */
-export const nextAuthSecret = process.env.NEXTAUTH_SECRET;
-if (!nextAuthSecret) {
-  throw new Error('NEXTAUTH_SECRET is not set');
-}
+const {
+  patternCoreEndpoint: { value: patternCoreEndpoint },
+} = config;
 
-const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
-if (!patternCoreEndpoint) {
-  throw new Error('PATTERN_CORE_ENDPOINT is not set');
-}
 const siweVerificationApi = `${patternCoreEndpoint}/auth/verify`;
 
 const providers = [

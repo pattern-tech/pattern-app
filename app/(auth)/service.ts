@@ -1,4 +1,4 @@
-import { Err, Ok, Result } from 'ts-results-es';
+import { Err, Ok, type Result } from 'ts-results-es';
 
 import {
   createProjectInWorkspace,
@@ -6,11 +6,6 @@ import {
   getAllProjects,
   getAllWorkspaces,
 } from './adapter';
-
-const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
-if (!patternCoreEndpoint) {
-  throw new Error('PATTERN_CORE_ENDPOINT is not set');
-}
 
 /**
  * Checks if the default workspace and project exist, if not, creates them
