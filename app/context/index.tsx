@@ -5,17 +5,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { type ReactNode } from 'react';
 import { type State, WagmiProvider } from 'wagmi';
 
-import {
-  chains,
-  metadata,
-  walletConnectProjectId,
-  siweConfig,
-  wagmiAdapter,
-} from '../config';
+import config from '@/config/config-client-only';
+
+import { chains, metadata, siweConfig, wagmiAdapter } from '../config';
 
 const queryClient = new QueryClient();
 
-if (!walletConnectProjectId) throw new Error('Project ID is not defined');
+const {
+  walletConnectProjectId: { value: walletConnectProjectId },
+} = config;
 
 createAppKit({
   adapters: [wagmiAdapter],

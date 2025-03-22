@@ -13,11 +13,6 @@ import type {
 
 import { extractErrorMessageOrDefault } from '../utils';
 
-export const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
-if (!patternCoreEndpoint) {
-  throw new Error('PATTERN_CORE_ENDPOINT is not set');
-}
-
 const textDecoder = new TextDecoder();
 
 export class PatternModel implements LanguageModelV1 {

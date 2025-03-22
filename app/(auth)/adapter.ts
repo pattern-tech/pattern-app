@@ -1,18 +1,18 @@
-import { Ok, Err, Result } from 'ts-results-es';
+import { Ok, Err, type Result } from 'ts-results-es';
 
+import config from '@/config';
 import { extractErrorMessageOrDefault } from '@/lib/utils';
 
-import {
+import type {
   ApiCreateProjectResponse,
   ApiCreateWorkspaceResponse,
   ApiListAllProjectsResponse,
   ApiListAllWorkspacesResponse,
 } from './types';
 
-const patternCoreEndpoint = process.env.PATTERN_CORE_ENDPOINT;
-if (!patternCoreEndpoint) {
-  throw new Error('PATTERN_CORE_ENDPOINT is not set');
-}
+const {
+  patternCoreEndpoint: { value: patternCoreEndpoint },
+} = config;
 
 /**
  * Get all workspaces

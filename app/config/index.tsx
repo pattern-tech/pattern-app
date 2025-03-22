@@ -16,9 +16,11 @@ import {
 import { getCsrfToken, getSession, signIn, signOut } from 'next-auth/react';
 import { getAddress } from 'viem';
 
-export const walletConnectProjectId =
-  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-if (!walletConnectProjectId) throw new Error('Project ID is not defined');
+import config from '@/config/config-client-only';
+
+export const {
+  walletConnectProjectId: { value: walletConnectProjectId },
+} = config;
 
 export const metadata = {
   name: 'Pattern',
