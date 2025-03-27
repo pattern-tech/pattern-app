@@ -1,9 +1,10 @@
 'use client';
 
+import type { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { motion } from 'framer-motion';
-import { Button } from './ui/button';
-import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { memo } from 'react';
+
+import { Button } from './ui/button';
 
 interface SuggestedActionsProps {
   chatId: string;
@@ -16,24 +17,15 @@ interface SuggestedActionsProps {
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
   const suggestedActions = [
     {
-      title: 'What are the advantages',
-      label: 'of using Next.js?',
-      action: 'What are the advantages of using Next.js?',
+      title: 'Which functions should I call to',
+      label: 'transfer USDC with the following contract?',
+      action:
+        'Which functions should I call to transfer USDC with the following contract? [0x43506849d7c04f9138d1a2050bbf3a0c054402dd]',
     },
     {
-      title: 'Write code to',
-      label: `demonstrate djikstra's algorithm`,
-      action: `Write code to demonstrate djikstra's algorithm`,
-    },
-    {
-      title: 'Help me write an essay',
-      label: `about silicon valley`,
-      action: `Help me write an essay about silicon valley`,
-    },
-    {
-      title: 'What is the weather',
-      label: 'in San Francisco?',
-      action: 'What is the weather in San Francisco?',
+      title: 'According to details of this transaction',
+      label: 'what do you think is this about in one paragraph?',
+      action: `According to details of this transaction what do you think is this about in one paragraph? [0x479635fa05bf2fecd6fdbb2ced34dcd53b0be323ee4086972617ed7711bbc5f2]`,
     },
   ];
 
