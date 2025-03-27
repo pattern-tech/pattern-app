@@ -1,6 +1,8 @@
 'use client';
 
 import type { User } from 'next-auth';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { PlusIcon } from '@/components/icons';
@@ -15,7 +17,7 @@ import {
   SidebarMenu,
   useSidebar,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
+
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
@@ -34,8 +36,13 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               }}
               className="flex flex-row gap-3 items-center"
             >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
+              <span className="p-4 rounded-md cursor-pointer">
+                <Image
+                  src="/images/logo-full.svg"
+                  alt="Pattern"
+                  width={128}
+                  height={24}
+                />
               </span>
             </Link>
             <Tooltip>
