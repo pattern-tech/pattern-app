@@ -1,27 +1,25 @@
-import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { Toaster } from "sonner";
-import { cookieToInitialState } from "wagmi";
+import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { Toaster } from 'sonner';
+import { cookieToInitialState } from 'wagmi';
 
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from '@/components/theme-provider';
 
-import { wagmiAdapter } from "./config";
-import ContextProvider from "./context";
-
-import "./globals.css";
+import { wagmiAdapter } from './config';
+import ContextProvider from './context';
+import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chat.vercel.ai"),
-  title: "Pattern",
-  description: "Pattern is a decentralized agentic RAG network",
+  title: 'Pattern',
+  description: 'Pattern is a decentralized agentic RAG network',
 };
 
 export const viewport = {
   maximumScale: 1,
 };
 
-const LIGHT_THEME_COLOR = "hsl(0 0% 100%)";
-const DARK_THEME_COLOR = "hsl(240deg 10% 3.92%)";
+const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
+const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
 const THEME_COLOR_SCRIPT = `\
 (function() {
   var html = document.documentElement;
@@ -46,7 +44,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const headersObj = await headers();
-  const cookies = headersObj.get("cookie");
+  const cookies = headersObj.get('cookie');
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig, cookies);
 
   return (
