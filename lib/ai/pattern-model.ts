@@ -92,11 +92,10 @@ export class PatternModel implements LanguageModelV1 {
                   textDelta: event.data,
                 });
               } else if (event.type === 'tool_start') {
-                const text = this.getToolStartReasoningText(event);
-                controller.enqueue({
-                  type: 'reasoning',
-                  textDelta: text,
-                });
+                /**
+                 * TODO: Re-enable reasoning when backend supports it
+                 * https://github.com/pattern-tech/pattern-app/issues/27
+                 */
               } else {
                 controller.enqueue({
                   type: 'error',
