@@ -28,21 +28,16 @@ export function AppSidebar({ user }: { user: User | undefined }) {
     <Sidebar className="group-data-[side=left]:border-r-0">
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center mt-3 ml-3">
             <Link
               href="/"
               onClick={() => {
                 setOpenMobile(false);
               }}
-              className="flex flex-row gap-3 items-center"
+              className="flex flex-row gap-3 items-center w-full"
             >
-              <span className="p-4 rounded-md cursor-pointer">
-                <Image
-                  src="/images/logo-full.svg"
-                  alt="Pattern"
-                  width={128}
-                  height={24}
-                />
+              <span className="p-4 rounded-md cursor-pointer relative w-1/2 h-[32px]">
+                <Image src="/images/logo-full.svg" alt="Pattern" fill />
               </span>
             </Link>
             <Tooltip>
