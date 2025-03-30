@@ -11,7 +11,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Pattern',
-  description: 'Pattern is a decentralized agentic RAG network',
+  description:
+    'Pattern is an orchestrated multi-agent system turning raw data into structured knowledge in real-time',
 };
 
 export const viewport = {
