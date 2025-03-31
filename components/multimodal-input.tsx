@@ -7,6 +7,7 @@ import type {
   Message,
 } from 'ai';
 import cx from 'classnames';
+import equal from 'fast-deep-equal';
 import type React from 'react';
 import {
   useRef,
@@ -25,10 +26,9 @@ import { sanitizeUIMessages } from '@/lib/utils';
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
 import { PreviewAttachment } from './preview-attachment';
+import { SuggestedActions } from './suggested-actions';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { SuggestedActions } from './suggested-actions';
-import equal from 'fast-deep-equal';
 
 function PureMultimodalInput({
   chatId,
@@ -253,10 +253,6 @@ function PureMultimodalInput({
           }
         }}
       />
-
-      <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
-        <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
-      </div>
 
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
         {isLoading ? (
