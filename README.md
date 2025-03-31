@@ -1,6 +1,6 @@
 # Pattern App
 
-This repository holds all the app logic of Pattern, a decentralized agentic RAG network.
+This repository holds all the app logic of Pattern, an orchestrated multi-agent system turning raw data into structured knowledge in real-time
 
 ## Running Locally
 

@@ -24,7 +24,8 @@ export const {
 
 export const metadata = {
   name: 'Pattern',
-  description: 'Pattern is a decentralized agentic RAG network',
+  description:
+    'Pattern is an orchestrated multi-agent system turning raw data into structured knowledge in real-time',
   url: 'https://pattern.global/',
   icons: ['https://avatars.githubusercontent.com/u/112399339'],
 };
