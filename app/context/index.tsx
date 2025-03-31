@@ -29,6 +29,9 @@ createAppKit({
     onramp: false,
     history: false,
   },
+  themeVariables: {
+    '--w3m-accent': 'hsl(var(--primary))',
+  },
 });
 
 export default function AppKitProvider({
