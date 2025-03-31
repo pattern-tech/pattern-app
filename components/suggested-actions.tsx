@@ -17,15 +17,15 @@ interface SuggestedActionsProps {
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
   const suggestedActions = [
     {
-      title: 'Which functions should I call to',
+      title: 'In Ethereum, which functions should I call to',
       label: 'transfer USDC with the following contract?',
       action:
-        'Which functions should I call to transfer USDC with the following contract? [0x43506849d7c04f9138d1a2050bbf3a0c054402dd]',
+        'In Ethereum, which functions should I call to transfer USDC with the following contract? [0x43506849d7c04f9138d1a2050bbf3a0c054402dd]',
     },
     {
-      title: 'According to details of this transaction',
+      title: 'According to details of this Ethereum transaction',
       label: 'what do you think is this about in one paragraph?',
-      action: `According to details of this transaction what do you think is this about in one paragraph? [0x479635fa05bf2fecd6fdbb2ced34dcd53b0be323ee4086972617ed7711bbc5f2]`,
+      action: `According to details of this Ethereum transaction what do you think is this about in one paragraph? [0x479635fa05bf2fecd6fdbb2ced34dcd53b0be323ee4086972617ed7711bbc5f2]`,
     },
   ];
 
