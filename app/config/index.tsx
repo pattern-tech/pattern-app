@@ -95,14 +95,13 @@ export const siweConfig = createSIWEConfig({
   },
   verifyMessage: async ({ message, signature }: SIWEVerifyMessageArgs) => {
     try {
-      const success = await signIn('credentials', {
+      await signIn('credentials', {
         message,
-        redirect: false,
+        redirectTo: '/',
         signature,
-        callbackUrl: '/protected',
       });
 
-      return Boolean(success?.ok);
+      return true;
     } catch (error) {
       return false;
     }
@@ -110,7 +109,8 @@ export const siweConfig = createSIWEConfig({
   signOut: async () => {
     try {
       await signOut({
-        redirect: false,
+        redirect: true,
+        redirectTo: '/',
       });
 
       return true;
