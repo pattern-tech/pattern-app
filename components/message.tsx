@@ -4,7 +4,7 @@ import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import type { Vote } from '@/lib/db/schema';
 import { cn } from '@/lib/utils';
@@ -206,6 +206,29 @@ export const PreviewMessage = memo(
 export const ThinkingMessage = () => {
   const role = 'assistant';
 
+  const texts = [
+    'Thinking...',
+    'Calling relevant tools...',
+    'Fetching external data...',
+    'Finalizing response...',
+  ];
+  const [index, setIndex] = useState(0);
+
+  /**
+   * Change the text with an interval which increases exponentially, hence
+   * displaying the latter texts for a longer time
+   */
+  useEffect(() => {
+    texts.slice(0, -1).map((_, textIndex) => {
+      setTimeout(
+        () => {
+          setIndex(textIndex + 1);
+        },
+        1000 * 3 ** (textIndex + 1),
+      );
+    });
+  }, []);
+
   return (
     <motion.div
       className="w-full mx-auto max-w-3xl px-4 group/message "
@@ -225,10 +248,19 @@ export const ThinkingMessage = () => {
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Thinking...
-          </div>
+        <div className="flex flex-col justify-center gap-2 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={texts[index]}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="text-muted-foreground absolute"
+            >
+              {texts[index]}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>
