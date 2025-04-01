@@ -4,8 +4,9 @@ import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 
+import { useThinkingText } from '@/hooks/use-thinking-text';
 import type { Vote } from '@/lib/db/schema';
 import { cn } from '@/lib/utils';
 
@@ -206,28 +207,7 @@ export const PreviewMessage = memo(
 export const ThinkingMessage = () => {
   const role = 'assistant';
 
-  const texts = [
-    'Thinking...',
-    'Calling relevant tools...',
-    'Fetching external data...',
-    'Finalizing response...',
-  ];
-  const [index, setIndex] = useState(0);
-
-  /**
-   * Change the text with an interval which increases exponentially, hence
-   * displaying the latter texts for a longer time
-   */
-  useEffect(() => {
-    texts.slice(0, -1).map((_, textIndex) => {
-      setTimeout(
-        () => {
-          setIndex(textIndex + 1);
-        },
-        1000 * 3 ** (textIndex + 1),
-      );
-    });
-  }, []);
+  const thinkingText = useThinkingText();
 
   return (
     <motion.div
@@ -251,14 +231,14 @@ export const ThinkingMessage = () => {
         <div className="flex flex-col justify-center gap-2 w-full">
           <AnimatePresence mode="wait">
             <motion.div
-              key={texts[index]}
+              key={thinkingText}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
               className="text-muted-foreground absolute"
             >
-              {texts[index]}
+              {thinkingText}
             </motion.div>
           </AnimatePresence>
         </div>
