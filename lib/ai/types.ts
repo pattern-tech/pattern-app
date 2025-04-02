@@ -9,7 +9,15 @@ export interface ToolStartEvent {
   tool_input: Record<string, string>;
 }
 
-export type PatternStreamingResponseEvent = TokenEvent | ToolStartEvent;
+export interface CompletionEvent {
+  type: 'completion';
+  data: 'Stream completed';
+}
+
+export type PatternStreamingResponseEvent =
+  | TokenEvent
+  | ToolStartEvent
+  | CompletionEvent;
 
 export interface PatternProviderMetadata {
   accessToken: string;
