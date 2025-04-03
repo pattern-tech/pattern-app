@@ -12,7 +12,7 @@ import { generateUUID, getMostRecentUserMessage } from '@/lib/utils';
 
 import { getOrCreateConversation } from '../../service';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
