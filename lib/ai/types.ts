@@ -14,10 +14,16 @@ export interface CompletionEvent {
   data: 'Stream completed';
 }
 
+export interface HeartbeatEvent {
+  type: 'heartbeat';
+  data: 'still_processing';
+}
+
 export type PatternStreamingResponseEvent =
   | TokenEvent
   | ToolStartEvent
-  | CompletionEvent;
+  | CompletionEvent
+  | HeartbeatEvent;
 
 export interface PatternProviderMetadata {
   accessToken: string;

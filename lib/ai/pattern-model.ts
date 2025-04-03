@@ -96,7 +96,15 @@ export class PatternModel implements LanguageModelV1 {
                  * TODO: Re-enable reasoning when backend supports it
                  * https://github.com/pattern-tech/pattern-app/issues/27
                  */
-              } else if (event.type === 'completion') {
+              } else if (
+                event.type === 'completion' ||
+                event.type === 'heartbeat'
+              ) {
+                /**
+                 * Ignore heartbeat and completion events. Completion event is
+                 * identified automatically when the stream is ended, and the
+                 * heartbeat event is only for keeping the connection alive
+                 */
               } else {
                 controller.enqueue({
                   type: 'error',
