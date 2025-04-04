@@ -8,11 +8,15 @@ import {
 import { auth } from '@/app/(auth)/auth';
 import { patternProvider } from '@/lib/ai/pattern-provider';
 import { deleteChatById, getChatById } from '@/lib/db/queries';
-import { generateUUID, getMostRecentUserMessage } from '@/lib/utils';
+import {
+  extractErrorMessageOrDefault,
+  generateUUID,
+  getMostRecentUserMessage,
+} from '@/lib/utils';
 
 import { getOrCreateConversation } from '../../service';
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
@@ -70,8 +74,8 @@ export async function POST(request: Request) {
         sendReasoning: true,
       });
     },
-    onError: () => {
-      return 'Oops, an error occured!';
+    onError: (error) => {
+      return extractErrorMessageOrDefault(error);
     },
   });
 }
