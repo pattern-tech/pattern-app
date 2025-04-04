@@ -6,6 +6,7 @@ import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useState } from 'react';
 
+import { useThinkingText } from '@/hooks/use-thinking-text';
 import type { Vote } from '@/lib/db/schema';
 import { cn } from '@/lib/utils';
 
@@ -206,6 +207,8 @@ export const PreviewMessage = memo(
 export const ThinkingMessage = () => {
   const role = 'assistant';
 
+  const thinkingText = useThinkingText();
+
   return (
     <motion.div
       className="w-full mx-auto max-w-3xl px-4 group/message "
@@ -225,10 +228,19 @@ export const ThinkingMessage = () => {
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Thinking...
-          </div>
+        <div className="flex flex-col justify-center gap-2 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={thinkingText}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="text-muted-foreground absolute"
+            >
+              {thinkingText}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>
