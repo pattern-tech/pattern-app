@@ -53,7 +53,12 @@ export const getConversation = async (
       `Fetching conversation failed with error code ${conversationResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching conversation',
+      ),
+    );
   }
 };
 
@@ -91,7 +96,12 @@ export const getConversationMessages = async (
       `Fetching conversation messages failed with error code ${conversationResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching conversation messages',
+      ),
+    );
   }
 };
 
@@ -138,7 +148,12 @@ export const createConversation = async (
       `Creating conversation failed with error code ${conversationResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while creating conversation',
+      ),
+    );
   }
 };
 
@@ -185,7 +200,12 @@ export const sendMessage = async (
       `Sending message failed with error code ${messageResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while sending message',
+      ),
+    );
   }
 };
 
@@ -228,11 +248,26 @@ export const sendMessageStreamed = async (
         : Err('Message was sent but stream object is null');
     }
 
+    /**
+     * This error is specifically handled because the user should know the
+     * reason, so that they can top up their MOR stake if needed
+     */
+    if (messageResponse.status === 429) {
+      return Err(
+        'You have used all your daily prompt credits. Please top up your MOR stake to continue, or wait until tomorrow.',
+      );
+    }
+
     return Err(
       `Sending message failed with error code ${messageResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while sending streamed message',
+      ),
+    );
   }
 };
 
@@ -267,7 +302,12 @@ export const getAllConversations = async (
       `Fetching projects failed with error code ${allConversationsResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching all conversations',
+      ),
+    );
   }
 };
 
@@ -311,6 +351,11 @@ export const renameConversation = async (
       `Renaming conversation failed with error code ${renameResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while renaming conversation',
+      ),
+    );
   }
 };

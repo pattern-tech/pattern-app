@@ -44,7 +44,12 @@ export const getAllWorkspaces = async (
       `Fetching workspaces failed with error code ${allWorkspacesResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching workspaces',
+      ),
+    );
   }
 };
 
@@ -76,7 +81,12 @@ export const createWorkspace = async (
     }
     return Err(`Creating workspace failed with error code ${response.status}`);
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while creating workspace',
+      ),
+    );
   }
 };
 
@@ -106,7 +116,12 @@ export const getAllProjects = async (
       `Fetching projects failed with error code ${allProjectsResponse.status}`,
     );
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching projects',
+      ),
+    );
   }
 };
 
@@ -140,6 +155,11 @@ export const createProjectInWorkspace = async (
     }
     return Err(`Creating project failed with error code ${response.status}`);
   } catch (error) {
-    return Err(extractErrorMessageOrDefault(error));
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while creating project',
+      ),
+    );
   }
 };
