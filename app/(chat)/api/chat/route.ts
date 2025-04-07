@@ -75,7 +75,13 @@ export async function POST(request: Request) {
       });
     },
     onError: (error) => {
-      return extractErrorMessageOrDefault(error);
+      /**
+       * We may get an error object when calling message API, or an error string
+       * when transforming the stream
+       */
+      return typeof error === 'string'
+        ? error
+        : extractErrorMessageOrDefault(error);
     },
   });
 }

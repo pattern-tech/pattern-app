@@ -11,8 +11,6 @@ import type {
   ToolStartEvent,
 } from '@/lib/ai/types';
 
-import { extractErrorMessageOrDefault } from '../utils';
-
 const textDecoder = new TextDecoder();
 
 export class PatternModel implements LanguageModelV1 {
@@ -115,10 +113,7 @@ export class PatternModel implements LanguageModelV1 {
           } catch (error) {
             controller.enqueue({
               type: 'error',
-              error: extractErrorMessageOrDefault(
-                error,
-                'An unknown error occurred when transforming response chunk',
-              ),
+              error: 'Cannot parse chunk due to corrupted data or invalid JSON',
             });
           }
         } else {
