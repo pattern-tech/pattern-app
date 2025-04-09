@@ -4,6 +4,7 @@ import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import equal from 'fast-deep-equal';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import { memo, useState } from 'react';
 
 import { useThinkingText } from '@/hooks/use-thinking-text';
@@ -12,7 +13,6 @@ import { cn } from '@/lib/utils';
 
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { DocumentPreview } from './document-preview';
-import { SparklesIcon } from './icons';
 import { Markdown } from './markdown';
 import { MessageEditor } from './message-editor';
 import { MessageReasoning } from './message-reasoning';
@@ -62,7 +62,14 @@ const PurePreviewMessage = ({
           {message.role === 'assistant' && (
             <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
               <div className="translate-y-px">
-                <SparklesIcon size={14} />
+                <span className="p-4 rounded-md cursor-pointer relative w-1/2 h-[24px]">
+                  <Image
+                    src="/images/logo-white.svg"
+                    alt="Pattern"
+                    fill
+                    className="p-2"
+                  />
+                </span>
               </div>
             </div>
           )}
@@ -225,7 +232,14 @@ export const ThinkingMessage = () => {
         )}
       >
         <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-          <SparklesIcon size={14} />
+          <span className="p-4 rounded-md cursor-pointer relative w-1/2 h-[24px]">
+            <Image
+              src="/images/logo-white.svg"
+              alt="Pattern"
+              fill
+              className="p-2"
+            />
+          </span>
         </div>
 
         <div className="flex flex-col justify-center gap-2 w-full">
