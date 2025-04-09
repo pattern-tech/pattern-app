@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 
 import AppkitButton from './appkit-button';
 import { PlusIcon } from './icons';
+import { QueryUsage } from './query-usage';
 import { useSidebar } from './ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
@@ -41,7 +42,8 @@ function PureChatHeader() {
         </Tooltip>
       )}
 
-      <div className="order-4 m-4 md:ml-auto">
+      <div className="order-4 m-4 md:ml-auto flex items-center gap-4">
+        <QueryUsage />
         <AppkitButton />
       </div>
     </header>

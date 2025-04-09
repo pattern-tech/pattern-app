@@ -7,6 +7,7 @@ import {
   renameConversation,
   getConversation,
   getAllConversations,
+  getQueryUsage as getQueryUsageAdapter,
 } from './adapter';
 import type { Conversation } from './types';
 
@@ -93,6 +94,45 @@ export const getAllChats = async (
   }));
 
   return Ok(history);
+};
+
+/**
+ * Get query usage
+ * @param accessToken
+ * @returns result containing query usage
+ */
+export const getQueryUsage = async (
+  accessToken: string,
+): Promise<
+  Result<
+    {
+      todayQueryCount: number;
+      remainingQueriesToday: number;
+      maxQueryAllowancePerDay: number;
+      nextResetTime: string;
+    },
+    string
+  >
+> => {
+  const result = await getQueryUsageAdapter(accessToken);
+
+  if (result.isErr()) {
+    return Err(result.error);
+  }
+
+  const {
+    today_query_count,
+    remaining_queries_today,
+    max_query_allowance_per_day,
+    next_reset_time,
+  } = result.value;
+
+  return Ok({
+    todayQueryCount: today_query_count,
+    remainingQueriesToday: remaining_queries_today,
+    maxQueryAllowancePerDay: max_query_allowance_per_day,
+    nextResetTime: next_reset_time,
+  });
 };
 
 export {
