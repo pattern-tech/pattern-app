@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import { headers } from 'next/headers';
 import { Toaster } from 'sonner';
 import { cookieToInitialState } from 'wagmi';
@@ -59,15 +60,17 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <ContextProvider initialState={initialState}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster position="top-center" />
-            {children}
-          </ThemeProvider>
+          <SessionProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster position="top-center" />
+              {children}
+            </ThemeProvider>
+          </SessionProvider>
         </ContextProvider>
       </body>
     </html>

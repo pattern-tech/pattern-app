@@ -1,6 +1,7 @@
 'use client';
 
 import { formatDistanceToNow } from 'date-fns';
+import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 
 import type { QueryUsage as QueryUsageType } from '@/app/(chat)/types';
@@ -9,10 +10,14 @@ import { fetcher } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 export function QueryUsage() {
+  const { status } = useSession();
   const { data, isLoading } = useSWR<QueryUsageType>(
-    '/api/query-usage',
+    status === 'authenticated' ? '/api/query-usage' : null,
     fetcher,
+    { revalidateOnFocus: false, revalidateOnReconnect: false },
   );
+
+  if (status !== 'authenticated') return null;
 
   if (isLoading) {
     return (
