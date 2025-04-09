@@ -8,6 +8,7 @@ import type {
   ApiSendMessageStreamedResponse,
   ApiGetAllConversationsResponse,
   ApiRenameConversationResponse,
+  ApiQueryUsageResponse,
 } from '@/app/(chat)/types';
 import config from '@/config';
 import { extractErrorMessageOrDefault } from '@/lib/utils';
@@ -355,6 +356,40 @@ export const renameConversation = async (
       extractErrorMessageOrDefault(
         error,
         'Unknown error while renaming conversation',
+      ),
+    );
+  }
+};
+
+/**
+ * Get query usage
+ * @param accessToken
+ * @returns result containing query usage
+ */
+export const getQueryUsage = async (
+  accessToken: string,
+): Promise<Result<ApiQueryUsageResponse, string>> => {
+  try {
+    const response = await fetch(`${patternCoreEndpoint}/query-usage`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const queryUsage: ApiQueryUsageResponse = (await response.json()).data;
+      return Ok(queryUsage);
+    }
+
+    return Err(
+      `Fetching query usage failed with error code ${response.status}`,
+    );
+  } catch (error) {
+    return Err(
+      extractErrorMessageOrDefault(
+        error,
+        'Unknown error while fetching query usage',
       ),
     );
   }

@@ -46,6 +46,7 @@ export function Chat({
     generateId: generateUUID,
     onFinish: () => {
       mutate('/api/history');
+      mutate('/api/query-usage');
     },
     onError: (error) => {
       toast.error(error.message);
