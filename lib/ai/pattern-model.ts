@@ -13,6 +13,17 @@ import type {
 
 const textDecoder = new TextDecoder();
 
+const SUPPORTED_EVENT_TYPES = [
+  'token',
+  'tool_start',
+  'tool_end',
+  'heartbeat',
+  'agent_start',
+  'agent_finish',
+  'tool_selection_start',
+  'tool_selection_end',
+] as const;
+
 export class PatternModel implements LanguageModelV1 {
   readonly modelId = 'pattern-model';
   readonly provider = 'pattern';
@@ -61,7 +72,7 @@ export class PatternModel implements LanguageModelV1 {
    * @returns Reasoning text for a tool start event
    */
   private getToolStartReasoningText(event: ToolStartEvent) {
-    return `#### Tool call - ${event.tool}\n${Object.entries(event.tool_input ?? {}).map((entry) => `* **${entry[0]}**: ${entry[1]}\n`)}`;
+    return `#### Tool call - ${event.tool_name}\n${Object.entries(JSON.parse(event.params)).map((entry) => `* **${entry[0]}**: ${entry[1]}\n`)}`;
   }
 
   /**
@@ -89,19 +100,10 @@ export class PatternModel implements LanguageModelV1 {
                   type: 'text-delta',
                   textDelta: event.data,
                 });
-              } else if (event.type === 'tool_start') {
+              } else if (SUPPORTED_EVENT_TYPES.includes(event.type)) {
                 /**
                  * TODO: Re-enable reasoning when backend supports it
                  * https://github.com/pattern-tech/pattern-app/issues/27
-                 */
-              } else if (
-                event.type === 'completion' ||
-                event.type === 'heartbeat'
-              ) {
-                /**
-                 * Ignore heartbeat and completion events. Completion event is
-                 * identified automatically when the stream is ended, and the
-                 * heartbeat event is only for keeping the connection alive
                  */
               } else {
                 controller.enqueue({

@@ -5,25 +5,53 @@ export interface TokenEvent {
 
 export interface ToolStartEvent {
   type: 'tool_start';
-  tool: string;
-  tool_input: Record<string, string>;
+  tool_name: string;
+  params: string;
+  timestamp: string;
 }
 
-export interface CompletionEvent {
-  type: 'completion';
-  data: 'Stream completed';
+export interface ToolEndEvent {
+  type: 'tool_end';
+  tool_name: string;
+  output: any;
+  timestamp: string;
 }
 
 export interface HeartbeatEvent {
   type: 'heartbeat';
-  data: 'still_processing';
+  data: 'processing_started' | 'still_processing';
+}
+
+export interface AgentStartEvent {
+  type: 'agent_start';
+  timestamp: string;
+}
+
+export interface AgentFinishEvent {
+  type: 'agent_finish';
+  timestamp: string;
+}
+
+export interface ToolSelectionStartEvent {
+  type: 'tool_selection_start';
+  timestamp: string;
+}
+
+export interface ToolSelectionEndEvent {
+  type: 'tool_selection_end';
+  selected_tools: string[];
+  timestamp: string;
 }
 
 export type PatternStreamingResponseEvent =
   | TokenEvent
   | ToolStartEvent
-  | CompletionEvent
-  | HeartbeatEvent;
+  | ToolEndEvent
+  | HeartbeatEvent
+  | AgentStartEvent
+  | AgentFinishEvent
+  | ToolSelectionStartEvent
+  | ToolSelectionEndEvent;
 
 export interface PatternProviderMetadata {
   accessToken: string;
