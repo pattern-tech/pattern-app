@@ -56,6 +56,7 @@
     "nanoid": "^5.0.8",
     "next": "15.3.0-canary.31",
     "next-auth": "5.0.0-beta.25",
+    "next-axiom": "^1.9.1",
     "next-themes": "^0.3.0",
     "orderedmap": "^2.1.1",
     "papaparse": "^5.5.2",

@@ -174,8 +174,7 @@ export class PatternModel implements LanguageModelV1 {
           } catch (error) {
             controller.enqueue({
               type: 'error',
-              error:
-                `Cannot parse chunk due to corrupted data or invalid JSON: ${extractErrorMessageOrDefault(error)}`,
+              error: `Cannot parse chunk due to corrupted data or invalid JSON: ${extractErrorMessageOrDefault(error)}`,
             });
           }
         } else {
