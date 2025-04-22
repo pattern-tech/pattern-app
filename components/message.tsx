@@ -15,7 +15,6 @@ import { DocumentToolCall, DocumentToolResult } from './document';
 import { DocumentPreview } from './document-preview';
 import { Markdown } from './markdown';
 import { MessageEditor } from './message-editor';
-import { MessageReasoning } from './message-reasoning';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
 
@@ -41,6 +40,13 @@ const PurePreviewMessage = ({
   isReadonly: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
+
+  /**
+   * For now, only streaming reasoning to console is supported
+   */
+  if (message.reasoning) {
+    console.log('Pattern event: ', message.reasoning);
+  }
 
   return (
     <AnimatePresence>
@@ -84,13 +90,6 @@ const PurePreviewMessage = ({
                   />
                 ))}
               </div>
-            )}
-
-            {message.reasoning && (
-              <MessageReasoning
-                isLoading={isLoading}
-                reasoning={message.reasoning}
-              />
             )}
 
             {(message.content || message.reasoning) && mode === 'view' && (

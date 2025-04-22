@@ -8,3 +8,14 @@ import { flag } from 'flags/next';
  *   key: 'some-flag',
  * });
  */
+
+/**
+ * Feature flag to control whether to show tool calls in the chat UI
+ */
+type ShowToolCalls = 'console' | undefined;
+export const showToolCalls = flag<ShowToolCalls>({
+  adapter: edgeConfigAdapter(),
+  key: 'show-tool-calls',
+  options: ['console'],
+  defaultValue: undefined,
+});
