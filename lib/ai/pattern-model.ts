@@ -11,6 +11,7 @@ import type {
   ToolStartEvent,
 } from '@/lib/ai/types';
 
+import { showToolCalls as showToolCallsFlag } from '../flags';
 import { extractErrorMessageOrDefault } from '../utils';
 
 const textDecoder = new TextDecoder();
@@ -85,7 +86,10 @@ export class PatternModel implements LanguageModelV1 {
     let incompleteJsonFragment = '';
 
     return new TransformStream<string, LanguageModelV1StreamPart>({
-      transform: (chunk, controller) => {
+      transform: async (chunk, controller) => {
+        const showToolCalls = await showToolCallsFlag();
+        const shouldStreamToolCalls = showToolCalls === 'console';
+
         if (ArrayBuffer.isView(chunk)) {
           try {
             const chunkBuffer = new Uint8Array(
@@ -160,10 +164,12 @@ export class PatternModel implements LanguageModelV1 {
                   textDelta: event.data,
                 });
               } else if (SUPPORTED_EVENT_TYPES.includes(event.type)) {
-                /**
-                 * TODO: Re-enable reasoning when backend supports it
-                 * https://github.com/pattern-tech/pattern-app/issues/27
-                 */
+                if (shouldStreamToolCalls) {
+                  controller.enqueue({
+                    type: 'reasoning',
+                    textDelta: JSON.stringify(event),
+                  });
+                }
               } else {
                 controller.enqueue({
                   type: 'error',
