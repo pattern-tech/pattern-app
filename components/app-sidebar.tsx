@@ -34,11 +34,14 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               onClick={() => {
                 setOpenMobile(false);
               }}
-              className="flex flex-row gap-3 items-center w-full"
+              className="flex flex-row gap-2 items-center w-full"
             >
               <span className="p-4 rounded-md cursor-pointer relative w-1/2 h-[32px]">
                 <Image src="/images/logo-full.svg" alt="Pattern" fill />
               </span>
+              <div className="flex items-center justify-center rounded-md px-1 text-[10px] font-extrabold bg-transparent border border-zinc-300 text-zinc-300">
+                ALPHA
+              </div>
             </Link>
             <Tooltip>
               <TooltipTrigger asChild>
