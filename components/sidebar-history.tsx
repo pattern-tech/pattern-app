@@ -8,9 +8,7 @@ import { memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 
-import {
-  TrashIcon,
-} from '@/components/icons';
+import { TrashIcon } from '@/components/icons';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,7 +32,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useChatVisibility } from '@/hooks/use-chat-visibility';
 import type { Chat } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils';
 
@@ -57,11 +54,6 @@ const PureChatItem = ({
   onDelete: (chatId: string) => void;
   setOpenMobile: (open: boolean) => void;
 }) => {
-  const { visibilityType, setVisibilityType } = useChatVisibility({
-    chatId: chat.id,
-    initialVisibility: chat.visibility,
-  });
-
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
@@ -212,15 +204,15 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
         const chatDate = new Date(chat.createdAt);
 
         if (isToday(chatDate)) {
-          groups.today.push(chat);
+          groups.today.unshift(chat);
         } else if (isYesterday(chatDate)) {
-          groups.yesterday.push(chat);
+          groups.yesterday.unshift(chat);
         } else if (chatDate > oneWeekAgo) {
-          groups.lastWeek.push(chat);
+          groups.lastWeek.unshift(chat);
         } else if (chatDate > oneMonthAgo) {
-          groups.lastMonth.push(chat);
+          groups.lastMonth.unshift(chat);
         } else {
-          groups.older.push(chat);
+          groups.older.unshift(chat);
         }
 
         return groups;
