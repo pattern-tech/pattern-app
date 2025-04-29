@@ -29,6 +29,16 @@ createAppKit({
     onramp: false,
     history: false,
   },
+  tokens: {
+    // MOR on Base
+    'eip155:8453': {
+      address: '0x7431ada8a591c955a994a21710752ef9b882b8e3',
+    },
+    // MOR on Arbitrum
+    'eip155:42161': {
+      address: '0x092baadb7def4c3981454dd9c0a0d7ff07bcfc86',
+    },
+  },
   themeVariables: {
     '--w3m-accent': 'hsl(var(--primary))',
   },
