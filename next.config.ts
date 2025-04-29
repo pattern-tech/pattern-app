@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     return config;
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value:
+              "frame-ancestors 'self' https://secure-mobile.walletconnect.com https://secure-mobile.walletconnect.org https://secure.walletconnect.org",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withAxiom(nextConfig);
