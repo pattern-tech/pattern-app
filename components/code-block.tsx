@@ -1,20 +1,18 @@
 'use client';
 
 interface CodeBlockProps {
-  node: any;
-  inline: boolean;
-  className: string;
-  children: any;
+  node?: any;
+  className?: string;
+  children?: any;
 }
 
 export function CodeBlock({
   node,
-  inline,
   className,
   children,
   ...props
 }: CodeBlockProps) {
-  if (!inline) {
+  if (node?.children[0]?.value?.endsWith('\n')) {
     return (
       <div className="not-prose flex flex-col">
         <pre
