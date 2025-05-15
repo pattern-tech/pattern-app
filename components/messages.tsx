@@ -1,10 +1,12 @@
 import { ChatRequestOptions, Message } from 'ai';
-import { PreviewMessage, ThinkingMessage } from './message';
-import { useScrollToBottom } from './use-scroll-to-bottom';
-import { Overview } from './overview';
-import { memo } from 'react';
-import { Vote } from '@/lib/db/schema';
 import equal from 'fast-deep-equal';
+import { memo } from 'react';
+
+import { Vote } from '@/lib/db/schema';
+
+import { PreviewMessage, ThinkingMessage } from './message';
+import { Overview } from './overview';
+import { useScrollToBottom } from './use-scroll-to-bottom';
 
 interface MessagesProps {
   chatId: string;
@@ -33,14 +35,16 @@ function PureMessages({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
+  const nonEmptyMessages = messages.filter((message) => message.content);
+
   return (
     <div
       ref={messagesContainerRef}
       className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4"
     >
-      {messages.length === 0 && <Overview />}
+      {nonEmptyMessages.length === 0 && <Overview />}
 
-      {messages.map((message, index) => (
+      {nonEmptyMessages.map((message, index) => (
         <PreviewMessage
           key={message.id}
           chatId={chatId}
@@ -58,8 +62,10 @@ function PureMessages({
       ))}
 
       {isLoading &&
-        messages.length > 0 &&
-        messages[messages.length - 1].role === 'user' && <ThinkingMessage />}
+        nonEmptyMessages.length > 0 &&
+        nonEmptyMessages[nonEmptyMessages.length - 1].role === 'user' && (
+          <ThinkingMessage />
+        )}
 
       <div
         ref={messagesEndRef}
