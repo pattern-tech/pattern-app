@@ -23,7 +23,7 @@ createAppKit({
   metadata,
   features: {
     email: false,
-    socials: ['google'],
+    socials: false,
     send: false,
     swaps: false,
     onramp: false,
